@@ -12,7 +12,7 @@ class KafkaBaseTest {
 
     @Test
     public void isActive() {
-        System.out.println("kafkaTemplate = " + kafkaTemplate);
+        System.out.println("kafkaTemplate：" + kafkaTemplate);
     }
 
     @Test

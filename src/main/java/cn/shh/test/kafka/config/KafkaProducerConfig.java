@@ -34,6 +34,10 @@ public class KafkaProducerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
+    /**
+     * 包装核心属性到集合 map 中。
+     * @return
+     */
     private Map<String, Object> pros(){
         Map<String, Object> map = new HashMap<>();
         map.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -50,6 +54,13 @@ public class KafkaProducerConfig {
         return new KafkaTemplate<>(producerFactory);
     }*/
 
+    /**
+     * 创建Bean RoutingKafkaTemplate，并注入到容器。
+     *
+     * @param context
+     * @param pf
+     * @return
+     */
     @Bean
     public RoutingKafkaTemplate routingTemplate(GenericApplicationContext context, ProducerFactory<Object, Object> pf) {
         // Clone the PF with a different Serializer, register with Spring for shutdown
@@ -65,6 +76,12 @@ public class KafkaProducerConfig {
         return new RoutingKafkaTemplate(map);
     }
 
+    /**
+     * 创建Bean KafkaProducer，并注入到容器。
+     *
+     * @param kafkaProperties
+     * @return
+     */
     @Bean
     public KafkaProducer kafkaProducer(KafkaProperties kafkaProperties){
         Properties properties = new Properties();
@@ -80,5 +97,4 @@ public class KafkaProducerConfig {
         KafkaProducer kafkaProducer = new KafkaProducer<Object, Object>(properties);
         return kafkaProducer;
     }
-
 }

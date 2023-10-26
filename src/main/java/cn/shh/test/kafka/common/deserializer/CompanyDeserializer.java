@@ -1,6 +1,5 @@
 package cn.shh.test.kafka.common.deserializer;
 
-
 import cn.shh.test.kafka.pojo.Company;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.header.Headers;
@@ -10,6 +9,9 @@ import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.Map;
 
+/**
+ * 实体类 Company 反序列化器
+ */
 public class CompanyDeserializer implements Deserializer<Company> {
     @Override
     public Company deserialize(String topic, byte[] data) {
@@ -37,7 +39,6 @@ public class CompanyDeserializer implements Deserializer<Company> {
         }catch (UnsupportedEncodingException e) {
             throw new SerializationException("反序列化出错！");
         }
-
         return new Company(name, address);
     }
 

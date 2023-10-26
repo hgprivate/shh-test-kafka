@@ -1,7 +1,7 @@
 package cn.shh.test.kafka.consumer;
 
-import cn.shh.test.kafka.kafka3.consumer.deserializer.CompanyDeserializer;
-import cn.shh.test.kafka.kafka3.util.KafkaConsumerUtil;
+import cn.shh.test.kafka.common.deserializer.CompanyDeserializer;
+import cn.shh.test.kafka.util.KafkaConsumerUtil;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.TopicPartition;
 
@@ -20,9 +20,8 @@ public class KFKConsumerProblem {
 
     /**
      * 位移提交失败后会进行【重试】操作，重试会增加代码难度，不重试会增加【重复消费】概率。
-     *
-     * 如果消费者正常退出 或 发生再均衡 的情况，那么可以在 退出 或 再均衡执行之前使用同步
-     * 提交方式来做保障。
+     * <p>
+     * 如果消费者正常退出 或 发生再均衡，那么可以在 退出 或 再均衡执行之前使用同步提交方式来做保障。
      */
     private static void test01() {
         // 1、配置参数并创建消费者实例
@@ -72,5 +71,4 @@ public class KFKConsumerProblem {
             }
         }
     }
-
 }

@@ -25,7 +25,6 @@ import java.util.concurrent.TimeoutException;
 public class SendMessageTest {
     @Autowired
     private KafkaTemplate kafkaTemplate;
-
     @Autowired
     private RoutingKafkaTemplate routingKafkaTemplate;
 //
@@ -35,27 +34,36 @@ public class SendMessageTest {
 //    @Autowired
 //    private ReplyingKafkaTemplate replyingKafkaTemplate;
 
+    /**
+     * 测试 KafkaTemplate 实例是否创建并注入成功
+     */
     @Test
-    public void isActive(){
-        System.out.println("kafkaTemplate = " + kafkaTemplate);
+    public void isActive() {
+        System.out.println("kafkaTemplate：" + kafkaTemplate);
+        System.out.println("routingKafkaTemplate：" + routingKafkaTemplate);
     }
 
+    /**
+     * 通过 KafkaTemplate 异步发送消息
+     */
     @Test
-    public void asyncSendMessageByKafkaTemplate(){
+    public void asyncSendMessageByKafkaTemplate() {
         ProducerRecord producerRecord = new ProducerRecord<>("first", "hello kafka.");
         CompletableFuture future = kafkaTemplate.send(producerRecord);
         future.whenComplete((result, ex) -> {
             if (ex == null) {
                 log.info("send success.");
-            }
-            else {
+            } else {
                 log.info("send error.");
             }
         });
     }
 
+    /**
+     * 通过 KafkaTemplate 同步发送消息
+     */
     @Test
-    public void syncSendMessageByKafkaTemplate(){
+    public void syncSendMessageByKafkaTemplate() {
         try {
             ProducerRecord producerRecord = new ProducerRecord<>("first", "hello kafka.");
             kafkaTemplate.send(producerRecord).get(10, TimeUnit.SECONDS);
@@ -67,12 +75,16 @@ public class SendMessageTest {
         } catch (TimeoutException e) {
             log.error("TimeoutException: {}", e);
         }
-
-
     }
 
+    /**
+     * 通过 RoutingKafkaTemplate 发送消息
+     * <p>
+     * 向指定主题发送消息
+     * </p>
+     */
     @Test
-    public void sendMessageByRoutingKafkaTemplate(){
+    public void sendMessageByRoutingKafkaTemplate() {
         routingKafkaTemplate.send("one", "thing1");
         routingKafkaTemplate.send("two", "thing2".getBytes());
     }

@@ -35,10 +35,6 @@ public class KafkaTopicConfig {
 
     @Bean
     public KafkaAdmin.NewTopics topics(){
-        return new KafkaAdmin.NewTopics(
-                TopicBuilder.name("one")
-                        .build(),
-                TopicBuilder.name("two")
-                        .build());
+        return new KafkaAdmin.NewTopics(TopicBuilder.name("one").build(), TopicBuilder.name("two").build());
     }
 }

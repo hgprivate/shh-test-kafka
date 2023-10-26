@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### my set
+mvnw
+mvnw.cmd
+.mvn
+*/target

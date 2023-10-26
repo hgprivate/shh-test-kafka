@@ -1,6 +1,6 @@
 package cn.shh.test.kafka.consumer;
 
-import cn.shh.test.kafka.kafka3.util.KafkaConsumerUtil;
+import cn.shh.test.kafka.util.KafkaConsumerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -19,13 +19,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * KafkaConsumer多线程实现
  *
- * KafkaConsumer是非线程安全的。其acquire()方法用来检测当前是否只有一个线程在操作，其对应的是
+ * KafkaConsumer非线程安全。acquire()方法可用来检测当前是否只有一个线程在操作，其对应的是
  * release()方法。
- *
- * 多线程实现方式有多种，例如：
- *   - 线程封闭：为每个线程实例化一个KafkaConsumer对象。
- *   - 多个线程同时消费同一分区。通过assign()、seek()方法实现。
- *   - 基于多线程实现消息处理
+ * <p>
+ * 多线程实现方式有多种，例如：<ol>
+ *   <li> 线程封闭：为每个线程实例化一个KafkaConsumer对象。
+ *   <li> 多个线程同时消费同一分区。通过assign()、seek()方法实现。
+ *   <li> 基于多线程实现消息处理
  */
 @Slf4j
 public class MultiThreadKFKConsumer {
@@ -55,7 +55,7 @@ public class MultiThreadKFKConsumer {
         @Override
         public void run() {
             try {
-                while (true){
+                while(true){
                     ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(Duration.ofMillis(100));
                     for (ConsumerRecord<String, String > consumerRecord : consumerRecords){
                         // 处理消息
@@ -75,7 +75,7 @@ public class MultiThreadKFKConsumer {
      */
     private void test02() {
         for (int i = 0; i < 4; i++) {
-            new KafkaConsumerThread("first").start();
+            new KafkaConsumerThread2("first",3).start();
         }
     }
     private class KafkaConsumerThread2 extends Thread{

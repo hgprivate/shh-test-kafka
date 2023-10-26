@@ -17,6 +17,9 @@ public class MyProducerInterceptor implements ProducerInterceptor<String, String
     private volatile long sendSuccess = 0;
     private volatile long sendFailure = 0;
 
+    /**
+     * 发送消息前 被调用
+     */
     @Override
     public ProducerRecord<String, String> onSend(ProducerRecord<String, String> producerRecord) {
         String newVal = "prefix - " + producerRecord.value();
@@ -24,6 +27,9 @@ public class MyProducerInterceptor implements ProducerInterceptor<String, String
                 producerRecord.headers());
     }
 
+    /**
+     * 当发送到服务器的记录已被确认，或记录在发送到服务器之前失败时调用此方法。
+     */
     @Override
     public void onAcknowledgement(RecordMetadata recordMetadata, Exception exception) {
         if (exception == null){
@@ -33,6 +39,9 @@ public class MyProducerInterceptor implements ProducerInterceptor<String, String
         }
     }
 
+    /**
+     * 拦截器关闭时 被调用
+     */
     @Override
     public void close() {
         double successRatio = (double) sendSuccess / (sendSuccess + sendFailure);
@@ -41,6 +50,5 @@ public class MyProducerInterceptor implements ProducerInterceptor<String, String
 
     @Override
     public void configure(Map<String, ?> map) {
-
     }
 }

@@ -1,6 +1,6 @@
 package cn.shh.test.kafka.consumer;
 
-import cn.shh.test.kafka.kafka3.util.KafkaConsumerUtil;
+import cn.shh.test.kafka.util.KafkaConsumerUtil;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -14,12 +14,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 消费者 客户端
- *
- * - Kafka 基于拉模式 来消费消息。
- * - KafkaConsumer线程非安全。
- *
- * - 控制和关闭消费 通过 pause() 和 resume()方法实现。
- * - 指定位移消费可调用seek()方法实现。
+ * <p>
+ * Kafka 通过 拉取 消息来消费。KafkaConsumer线程非安全。
+ * <p>
+ *  常用方法：
+ *  <ul>
+ *    <li> pause(): 控制消费；
+ *    <li> resume(): 关闭消费；
+ *    <li> seek(): 指定位移来消费；
  */
 public class KFKConsumer {
     private static final AtomicBoolean isRunning = new AtomicBoolean(true);
@@ -122,7 +124,7 @@ public class KFKConsumer {
      * 提交消费位移
      *      - 自动提交功能 依赖 如下参数：
      *          - 参数 enable.auto.commit 表示 是否开启自动位移提交。默认开启，即默认自动提交。
-     *          - 参数 auto.commit.interval.ms 表示 多次自动提交的时间间隔。默认5秒。
+     *          - 参数 auto.commit.interval.ms 表示 自动提交的时间间隔。默认5秒。
      *      - 手动提交功能 分两种：
      *          - 同步提交：commitSync()方法
      *          - 异步提交：commitAsync()方法

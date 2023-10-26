@@ -9,6 +9,9 @@ import org.apache.kafka.common.serialization.Deserializer;
 
 import java.util.Map;
 
+/**
+ * 基于 Protostuff 实现的实体类 Company 反序列化器
+ */
 public class CompanyProtostuffDeserializer implements Deserializer<Company> {
     @Override
     public void configure(Map configs, boolean isKey) {
