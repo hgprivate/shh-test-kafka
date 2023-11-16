@@ -34,20 +34,13 @@ public class KafkaProducerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    /**
-     * 包装核心属性到集合 map 中。
-     * @return
-     */
-    private Map<String, Object> pros(){
+    @Bean
+    public ProducerFactory producerFactory(){
         Map<String, Object> map = new HashMap<>();
         map.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         map.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         map.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        return map;
-    }
-    @Bean
-    public ProducerFactory<Object, Object> producerFactory(){
-        return new DefaultKafkaProducerFactory<>(pros());
+        return new DefaultKafkaProducerFactory<>(map);
     }
     /*@Bean
     public KafkaTemplate<String, String> kafkaTemplate(ProducerFactory<String, String> producerFactory){

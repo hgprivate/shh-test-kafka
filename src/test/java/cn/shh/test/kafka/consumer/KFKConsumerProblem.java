@@ -28,7 +28,7 @@ public class KFKConsumerProblem {
         Map<String, Object> map = new HashMap<>();
         map.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, CompanyDeserializer.class.getName());
         map.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "");
-        KafkaConsumer consumer = KafkaConsumerUtil.getKafkaConsumer(map);
+        KafkaConsumer consumer = KafkaConsumerUtil.getKafkaConsumer();
 
         // 2、订阅主题
         consumer.subscribe(Arrays.asList("first"));       // 集合方式 订阅 主题

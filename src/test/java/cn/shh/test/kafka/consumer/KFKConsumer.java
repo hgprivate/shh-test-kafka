@@ -51,7 +51,7 @@ public class KFKConsumer {
         //map.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, CompanyProtostuffDeserializer.class.getName());
         // 使用 自定义拦截器
         //map.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, ConsumerInterceptorTTL.class.getName());
-        KafkaConsumer consumer = KafkaConsumerUtil.getKafkaConsumer(map);
+        KafkaConsumer consumer = KafkaConsumerUtil.getKafkaConsumer();
         return consumer;
     }
 

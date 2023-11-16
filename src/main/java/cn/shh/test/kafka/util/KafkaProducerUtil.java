@@ -7,7 +7,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 
 public class KafkaProducerUtil {
-    private static final String BOOTSTRAP_SERVERS = "kafka-node1:9092,kafka-node2:9092";
+    private static final String BOOTSTRAP_SERVERS = "127.0.0.1:9092";
     private static final String KEY_SERIALIZER = StringSerializer.class.getName();
     private static final String VALUE_SERIALIZER = StringSerializer.class.getName();
     private static final String ACKS = "all";
@@ -21,8 +21,8 @@ public class KafkaProducerUtil {
             properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KEY_SERIALIZER);
             properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, VALUE_SERIALIZER);
             properties.put(ProducerConfig.RETRIES_CONFIG, RETRIES);
-            properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, "");
-            properties.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, "");
+            //properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, "");
+            //properties.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, "");
             properties.put(ProducerConfig.ACKS_CONFIG, ACKS);
             kafkaProducer = new KafkaProducer(properties);
         }

@@ -49,7 +49,7 @@ public class MultiThreadKFKConsumer {
         private KafkaConsumer<String, String> kafkaConsumer;
 
         public KafkaConsumerThread(String topic){
-            this.kafkaConsumer = KafkaConsumerUtil.getKafkaConsumer(null);
+            this.kafkaConsumer = KafkaConsumerUtil.getKafkaConsumer();
             this.kafkaConsumer.subscribe(Arrays.asList(topic));
         }
         @Override
@@ -83,7 +83,7 @@ public class MultiThreadKFKConsumer {
         private ExecutorService executorService;
         private int threadNumber;
         public KafkaConsumerThread2(String topic, int threadNumber){
-            kafkaConsumer = KafkaConsumerUtil.getKafkaConsumer(null);
+            kafkaConsumer = KafkaConsumerUtil.getKafkaConsumer();
             kafkaConsumer.subscribe(Collections.singletonList(topic));
             this.threadNumber = threadNumber;
             executorService = new ThreadPoolExecutor(threadNumber, threadNumber, 0L,
