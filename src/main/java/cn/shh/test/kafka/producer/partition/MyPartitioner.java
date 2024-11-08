@@ -6,11 +6,6 @@ import org.apache.kafka.common.Cluster;
 
 import java.util.Map;
 
-/**
- * 作者：shh
- * 时间：2023/6/30
- * 版本：v1.0
- */
 @Slf4j
 public class MyPartitioner implements Partitioner {
     /**
@@ -18,7 +13,7 @@ public class MyPartitioner implements Partitioner {
      */
     @Override
     public int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes, Cluster cluster) {
-        log.info("MyPartitioner.partition(......)");
+        log.info("MyPartitioner.partition");
         String msgVal = value.toString();
         int partition;
         if (msgVal.contains("豪哥")){
@@ -34,11 +29,11 @@ public class MyPartitioner implements Partitioner {
      */
     @Override
     public void close() {
-        log.info("MyPartitioner.close()");
+        log.info("MyPartitioner.close");
     }
 
     @Override
     public void configure(Map<String, ?> configs) {
-        log.info("MyPartitioner.configure(.)");
+        log.info("MyPartitioner.configure");
     }
 }

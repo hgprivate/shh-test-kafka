@@ -1,14 +1,12 @@
-package cn.shh.test.kafka;
+package cn.shh.test.kafka.producer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.RoutingKafkaTemplate;
-import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -16,13 +14,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * 作者：shh
- * 时间：2023/6/30
- * 版本：v1.0
+ * 消息生产者
  */
 @Slf4j
 @SpringBootTest
-public class SendMessageTest {
+public class KFKProducerTest {
     @Autowired
     private KafkaTemplate kafkaTemplate;
     @Autowired
@@ -66,7 +62,8 @@ public class SendMessageTest {
     public void syncSendMessageByKafkaTemplate() {
         try {
             ProducerRecord producerRecord = new ProducerRecord<>("first", "hello kafka.");
-            kafkaTemplate.send(producerRecord).get(10, TimeUnit.SECONDS);
+            Object result = kafkaTemplate.send(producerRecord).get(10, TimeUnit.SECONDS);
+            System.out.println("result = " + result);
             log.info("send success");
         } catch (InterruptedException e) {
             log.error("InterruptedException: {}", e);

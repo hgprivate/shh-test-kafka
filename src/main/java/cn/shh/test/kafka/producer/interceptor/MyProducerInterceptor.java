@@ -7,11 +7,6 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 
 import java.util.Map;
 
-/**
- * 作者：shh
- * 时间：2023/6/30
- * 版本：v1.0
- */
 @Slf4j
 public class MyProducerInterceptor implements ProducerInterceptor<String, String> {
     private volatile long sendSuccess = 0;
@@ -22,6 +17,7 @@ public class MyProducerInterceptor implements ProducerInterceptor<String, String
      */
     @Override
     public ProducerRecord<String, String> onSend(ProducerRecord<String, String> producerRecord) {
+        log.info("MyProducerInterceptor.onSend");
         String newVal = "prefix - " + producerRecord.value();
         return new ProducerRecord(producerRecord.topic(), producerRecord.partition(), newVal,
                 producerRecord.headers());
@@ -32,6 +28,7 @@ public class MyProducerInterceptor implements ProducerInterceptor<String, String
      */
     @Override
     public void onAcknowledgement(RecordMetadata recordMetadata, Exception exception) {
+        log.info("MyProducerInterceptor.onAcknowledgement");
         if (exception == null){
             sendSuccess++;
         }else {
@@ -44,11 +41,13 @@ public class MyProducerInterceptor implements ProducerInterceptor<String, String
      */
     @Override
     public void close() {
+        log.info("MyProducerInterceptor.close");
         double successRatio = (double) sendSuccess / (sendSuccess + sendFailure);
         log.info("发送成功率：" + String.format("%f", successRatio * 100) + "%");
     }
 
     @Override
     public void configure(Map<String, ?> map) {
+        log.info("MyProducerInterceptor.configure");
     }
 }

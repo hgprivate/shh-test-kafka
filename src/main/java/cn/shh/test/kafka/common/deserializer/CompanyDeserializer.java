@@ -35,7 +35,6 @@ public class CompanyDeserializer implements Deserializer<Company> {
         try {
             name = new String(nameBytes, "UTF-8");
             address = new String(addressBytes, "UTF-8");
-
         }catch (UnsupportedEncodingException e) {
             throw new SerializationException("反序列化出错！");
         }

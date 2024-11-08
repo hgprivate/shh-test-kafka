@@ -4,11 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-/**
- * 作者：shh
- * 时间：2023/6/30
- * 版本：v1.0
- */
 @Slf4j
 @Component
 public class MessageConsumer {

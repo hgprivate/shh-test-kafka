@@ -1,5 +1,6 @@
 package cn.shh.test.kafka.consumer.interceptor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerInterceptor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -11,11 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 作者：shh
- * 时间：2023/6/30
- * 版本：v1.0
- */
+@Slf4j
 public class MyConsumerInterceptor implements ConsumerInterceptor<String, String> {
     private static final long EXPIRE_INTERVAL = 10 * 1000;
 
@@ -29,6 +26,7 @@ public class MyConsumerInterceptor implements ConsumerInterceptor<String, String
      */
     @Override
     public ConsumerRecords<String, String> onConsume(ConsumerRecords<String, String> records) {
+        log.info("MyConsumerInterceptor.onConsume");
         long now = System.currentTimeMillis();
         Map<TopicPartition, List<ConsumerRecord<String, String>>> newRecords = new HashMap<>();
         for (TopicPartition partition : records.partitions()){
@@ -47,11 +45,12 @@ public class MyConsumerInterceptor implements ConsumerInterceptor<String, String
     }
 
     /**
-     * 提交偏移量🔟被调用
+     * 提交偏移量时调用
      * @param offsets A map of offsets by partition with associated metadata
      */
     @Override
     public void onCommit(Map<TopicPartition, OffsetAndMetadata> offsets) {
+        log.info("MyConsumerInterceptor.onCommit");
         offsets.forEach((tp, offset) -> {
             System.out.printf("tp：{}，offset：{}", tp, offset);
         });
@@ -62,11 +61,11 @@ public class MyConsumerInterceptor implements ConsumerInterceptor<String, String
      */
     @Override
     public void close() {
-
+        log.info("MyConsumerInterceptor.close");
     }
 
     @Override
     public void configure(Map<String, ?> configs) {
-
+        log.info("MyConsumerInterceptor.configure");
     }
 }

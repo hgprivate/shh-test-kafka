@@ -20,9 +20,11 @@ public class CompanyProtostuffDeserializer implements Deserializer<Company> {
 
     @Override
     public Company deserialize(String topic, byte[] data) {
-        if (data == null){return null;}
-        Schema schema = RuntimeSchema.getSchema(Company.class);
+        if (data == null) {
+            return null;
+        }
         Company company = new Company();
+        Schema schema = RuntimeSchema.getSchema(Company.class);
         ProtostuffIOUtil.mergeFrom(data, company, schema);
         return company;
     }

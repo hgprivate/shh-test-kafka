@@ -5,34 +5,32 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.TopicPartition;
 
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * KafkaConsumer多线程实现
- *
+ * 多线程消息消费者
+ * <p>
  * KafkaConsumer非线程安全。acquire()方法可用来检测当前是否只有一个线程在操作，其对应的是
  * release()方法。
+ * </p>
  * <p>
- * 多线程实现方式有多种，例如：<ol>
- *   <li> 线程封闭：为每个线程实例化一个KafkaConsumer对象。
- *   <li> 多个线程同时消费同一分区。通过assign()、seek()方法实现。
- *   <li> 基于多线程实现消息处理
+ * 多线程实现有多种：
+ *   - 线程封闭：为每个线程实例化一个KafkaConsumer对象。
+ *   - 多线程同时消费同一分区。通过assign()、seek()方法实现。
+ *   - 通过多线程来消费消息。
  */
 @Slf4j
-public class MultiThreadKFKConsumer {
-
+public class KFKConsumerTest3 {
     public static void main(String[] args) {
-        MultiThreadKFKConsumer consumer = new MultiThreadKFKConsumer();
-
+        KFKConsumerTest3 consumer = new KFKConsumerTest3();
         consumer.test01();
 //        consumer.test02();
     }
@@ -59,6 +57,16 @@ public class MultiThreadKFKConsumer {
                     ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(Duration.ofMillis(100));
                     for (ConsumerRecord<String, String > consumerRecord : consumerRecords){
                         // 处理消息
+                        int partition = consumerRecord.partition();
+                        long offset = consumerRecord.offset();
+                        System.out.println("partition = " + partition);
+                        System.out.println("offset = " + offset);
+                        // 提交offset
+                        TopicPartition topicPartition = new TopicPartition("first", partition);
+                        OffsetAndMetadata offsetAndMetadata = new OffsetAndMetadata(offset);
+                        Map<TopicPartition, OffsetAndMetadata> map = new HashMap<>();
+                        map.put(topicPartition, offsetAndMetadata);
+                        kafkaConsumer.commitSync(map);
                     }
                 }
             }catch (Exception e){

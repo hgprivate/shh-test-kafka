@@ -23,10 +23,6 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 /**
- * 作者：shh
- * 时间：2023/6/30
- * 版本：v1.0
- *
  * kafka 生产者配置
  */
 @Configuration
@@ -48,7 +44,7 @@ public class KafkaProducerConfig {
     }*/
 
     /**
-     * 创建Bean RoutingKafkaTemplate，并注入到容器。
+     * 创建RoutingKafkaTemplate并注入到容器。
      *
      * @param context
      * @param pf
@@ -70,7 +66,7 @@ public class KafkaProducerConfig {
     }
 
     /**
-     * 创建Bean KafkaProducer，并注入到容器。
+     * 创建KafkaProducer并注入到容器。
      *
      * @param kafkaProperties
      * @return

@@ -13,15 +13,15 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 消费者客户端 问题分析及应对
+ * 消息消费者 问题重现及应对
  */
-public class KFKConsumerProblem {
+public class KFKConsumerTest2 {
     private static final AtomicBoolean isRunning = new AtomicBoolean(true);
 
     /**
-     * 位移提交失败后会进行【重试】操作，重试会增加代码难度，不重试会增加【重复消费】概率。
+     * 位移提交失败后会重试，重试会增加代码难度，不重试会增加重复消费概率。
      * <p>
-     * 如果消费者正常退出 或 发生再均衡，那么可以在 退出 或 再均衡执行之前使用同步提交方式来做保障。
+     * 如果消费者正常退出或发生再均衡，那么可在退出或再均衡前使用同步提交来做保障。
      */
     private static void test01() {
         // 1、配置参数并创建消费者实例
@@ -36,7 +36,6 @@ public class KFKConsumerProblem {
 
         // 3、拉取消息并消费
         long lastConsumedOffset = -1;
-
         try {
             while (isRunning.get()) {
                 ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(1000));
